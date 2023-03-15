@@ -12,7 +12,7 @@ pipeline {
         }
         stage('build') {
             steps {
-                sh "ansible-playbook -i hosts spring.yml"
+                sh "ansible-playbook -i /home/ubuntu/hosts /home/ubuntu/spring.yml "
             }
         }
     }
