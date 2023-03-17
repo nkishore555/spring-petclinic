@@ -1,14 +1,11 @@
 pipeline {
     agent { label 'mynode' }
-      triggers{
-      pollSCM('* * * * *')
-      }
 
         stages {
             stage('vcs') {
                steps{
                   git url: 'https://github.com/nkishore555/spring-petclinic.git',
-                  branch: 'main'
+                      branch: 'main'
                 }
             }
         
@@ -17,3 +14,5 @@ pipeline {
                   sh "mvn package"
                 }
         }
+        }
+}
