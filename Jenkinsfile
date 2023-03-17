@@ -1,25 +1,25 @@
 pipeline {
-    agent { label 'mynode' }
-
-        stages {
-            stage('vcs') {
-               steps{
-                  git url: 'https://github.com/nkishore555/spring-petclinic.git',
-                      branch: 'main'
-                }
+    agent{label 'mynode'}
+    triggers{
+        pollSCM('* * * * *')
+    }
+     stages{
+        stage('vcs') {
+            steps {
+                git url: 'https://github.com/nkishore555/spring-petclinic.git',
+                    branch: 'main'
             }
-        
-            stage('build') {
-               steps{
-                  sh "mvn package"
-                }
         }
-            stage('sonar analysis') {
-               steps{
-                  withSonarQubeEnv('SONAR_CLOUD') {
-                  sh 'mvn clean install sonar:sonar -Dsonar.organization=kishore -Dsonar.projectKey=kishore_kumar'
-                     }
-                   }   
-                }
+        stage('Build') {
+            steps {
+                sh 'docker image build -t kishorekrrish/spring-petclinic:3.0 .'
+                sh 'docker push kishorekrrish/spring-petclinic:3.0' 
+                 }
+        } 
+        stage('deploy') {
+           steps {
+              sh 'kubectl apply -f ./k8s/spc.yaml'
+           }
         }
+     }
 }
