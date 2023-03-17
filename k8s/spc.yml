@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: spring-petclinic
-          image: shaik1128/spring-petclinic:3.0
+          image: kishorekrrish/spring-petclinic:3.0
           ports:
             - containerPort: 8080
               name: spc-port
