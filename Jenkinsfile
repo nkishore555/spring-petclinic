@@ -14,5 +14,12 @@ pipeline {
                   sh "mvn package"
                 }
         }
+            stage('sonar analysis') {
+               steps{
+                  withSonarQubeEnv('SONAR_CLOUD') {
+                  sh 'mvn clean install sonar:sonar -Dsonar.organization=kishore -Dsonar.projectKey=kishore_kumar'
+                     }
+                   }   
+                }
         }
 }
